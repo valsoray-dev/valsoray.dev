@@ -1,15 +1,17 @@
-<video src="/rickroll.mp4" autoplay loop style="width: 100%; height: 100%;"></video>
+<video src="https://cdn.valsoray.dev/rickroll.mp4" autoplay loop style="width: 100%; height: 100%;"></video>
 <script>
-    function stop(e) {
+    function stopEvent(e) {
         e.preventDefault();
         e.stopPropagation();
     }
 
-    document.documentElement.requestFullscreen();
-    window.addEventListener("beforeunload", (e) => stop(e));
-    document.addEventListener("contextmenu", (e) => stop(e));
+    document.querySelector("video").onplaying = () => {
+        document.documentElement.requestFullscreen();
+    };
+    window.addEventListener("beforeunload", (e) => stopEvent(e));
+    document.addEventListener("contextmenu", (e) => stopEvent(e));
     document.addEventListener("keydown", (e) => {
         const isRefresh = e.key === "F5" || ((e.ctrlKey || e.metaKey) && e.key === "r");
-        if (isRefresh) stop(e);
+        if (isRefresh) stopEvent(e);
     });
 </script>

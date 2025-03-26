@@ -1,11 +1,7 @@
 use actix_files::Files;
-use actix_web::{
-    get,
-    http::header::{ContentType, CONTENT_LOCATION},
-    middleware,
-    web::Html,
-    App, HttpRequest, HttpResponse, HttpServer, Responder,
-};
+use actix_web::http::header::{ContentType, CONTENT_LOCATION};
+use actix_web::web::Html;
+use actix_web::{get, middleware, App, HttpRequest, HttpResponse, HttpServer, Responder};
 use log::info;
 
 #[get("/")]
