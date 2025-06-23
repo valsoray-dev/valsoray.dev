@@ -1,107 +1,112 @@
 /* https://codepen.io/Juxtopposed/pen/JjVXRey */
 
 :root {
-    /* Change this for scaling */
-    --m: 4rem;
+  /* Change this for scaling */
+  --m: 4rem;
 
-    --red: #ff6565;
-    --pink: #ff64f9;
-    --purple: #6b5fff;
-    --blue: #4d8aff;
-    --green: #5bff89;
-    --yellow: #ffee55;
-    --orange: #ff6d1b;
+  --red: #ff6565;
+  --pink: #ff64f9;
+  --purple: #6b5fff;
+  --blue: #4d8aff;
+  --green: #5bff89;
+  --yellow: #ffee55;
+  --orange: #ff6d1b;
 
-    --gradient-colors: var(--orange), var(--yellow), var(--green), var(--blue),
-        var(--purple), var(--pink), var(--red);
+  --gradient-colors:
+    var(--orange), var(--yellow), var(--green), var(--blue), var(--purple),
+    var(--pink), var(--red);
 }
 
 /* space-grotesk-latin-400-normal */
 @font-face {
-    font-family: "Space Grotesk";
-    font-style: normal;
-    font-display: swap;
-    font-weight: 400;
-    src: url(space-grotesk-latin-400-normal.woff2) format("woff2");
-    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
-        U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+2074, U+20AC, U+2122,
-        U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+  font-family: "Space Grotesk";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 400;
+  src: url(space-grotesk-latin-400-normal.woff2) format("woff2");
+  unicode-range:
+    U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC,
+    U+0304, U+0308, U+0329, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193,
+    U+2212, U+2215, U+FEFF, U+FFFD;
 }
 
 body {
-    background-color: #141516;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
+  background-color: #141516;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
 }
 
 button {
-    border: calc(0.08 * var(--m)) solid transparent;
-    position: relative;
-    color: #f3f3f3;
-    font-family: "Space Grotesk", sans-serif;
-    font-size: var(--m);
-    border-radius: calc(0.7 * var(--m));
-    padding: calc(0.5 * var(--m)) calc(1 * var(--m));
-    display: flex;
-    justify-content: center;
-    cursor: pointer;
+  border: calc(0.08 * var(--m)) solid transparent;
+  position: relative;
+  color: #f3f3f3;
+  font-family: "Space Grotesk", sans-serif;
+  font-size: var(--m);
+  border-radius: calc(0.7 * var(--m));
+  padding: calc(0.5 * var(--m)) calc(1 * var(--m));
+  display: flex;
+  justify-content: center;
+  cursor: pointer;
 
-    background: linear-gradient(#121213, #121213),
-        linear-gradient(
-            #121213 50%,
-            rgba(18, 18, 19, 0.6) 80%,
-            rgba(18, 18, 19, 0)
-        ),
-        linear-gradient(90deg, var(--gradient-colors));
-    background-origin: border-box;
-    background-clip: padding-box, border-box, border-box;
-    background-size: 200%;
-    animation: animate 2s infinite linear;
+  background:
+    linear-gradient(#121213, #121213),
+    linear-gradient(
+      #121213 50%,
+      rgba(18, 18, 19, 0.6) 80%,
+      rgba(18, 18, 19, 0)
+    ),
+    linear-gradient(90deg, var(--gradient-colors));
+  background-origin: border-box;
+  background-clip: padding-box, border-box, border-box;
+  background-size: 200%;
+  animation: animate 2s infinite linear;
 }
 
 button::before {
-    content: "";
-    background: linear-gradient(90deg, var(--gradient-colors));
-    height: 30%;
-    width: 85%;
-    position: absolute;
-    bottom: -20%;
-    z-index: -5;
-    background-size: 200%;
-    animation: animate 2s infinite linear;
-    filter: blur(calc(0.8 * var(--m)));
+  content: "";
+  background: linear-gradient(90deg, var(--gradient-colors));
+  height: 30%;
+  width: 85%;
+  position: absolute;
+  bottom: -20%;
+  z-index: -5;
+  background-size: 200%;
+  animation: animate 2s infinite linear;
+  filter: blur(calc(0.8 * var(--m)));
 }
 
 button:hover {
-    animation: animate 2s infinite linear, shadow-in 0.4s forwards;
+  animation:
+    animate 2s infinite linear,
+    shadow-in 0.4s forwards;
 }
 
 @keyframes animate {
-    0% {
-        background-position: 0;
-    }
+  0% {
+    background-position: 0;
+  }
 
-    100% {
-        background-position: 200%;
-    }
+  100% {
+    background-position: 200%;
+  }
 }
 
 @keyframes shadow-in {
-    0% {
-        box-shadow: 0 0 0 white;
-    }
+  0% {
+    box-shadow: 0 0 0 white;
+  }
 
-    100% {
-        box-shadow: 0 0 15px white;
-    }
+  100% {
+    box-shadow: 0 0 15px white;
+  }
 }
 
 @media screen and (max-width: 1000px) {
-    :root {
-        --m: 2rem;
-    }
+  :root {
+    --m: 2rem;
+  }
 }

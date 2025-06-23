@@ -1,24 +1,27 @@
-FROM rust:alpine AS builder
+# ---- Builder ----
+FROM rust:slim-bookworm AS builder
 WORKDIR /app
 
-RUN apk add --no-cache build-base
-
 COPY Cargo.toml Cargo.lock ./
-COPY dummy.rs ./
+
+# Create dummy main.rs file
+RUN mkdir src \
+  && echo 'fn main() {}' > src/main.rs
 
 # Build only dependencies
-RUN sed -i 's|src/main.rs|dummy.rs|' Cargo.toml
-RUN cargo build --release
-RUN sed -i 's|dummy.rs|src/main.rs|' Cargo.toml
+RUN cargo build --release --locked
 
+# Copy all files and build binary
 COPY . .
-RUN cargo build --release
+RUN touch src/main.rs \
+  && cargo build --release --locked
 
 
-FROM alpine:latest AS runner
+# ---- Runtime ----
+FROM gcr.io/distroless/cc-debian12:nonroot AS runtime
 WORKDIR /app
 
 COPY --from=builder /app/target/release/valsoray-dev ./
 COPY --from=builder /app/assets ./assets
 
-CMD [ "./valsoray-dev" ]
+ENTRYPOINT [ "/app/valsoray-dev" ]

@@ -1,26 +1,22 @@
-use actix_files::Files;
-use actix_web::http::header::{ContentType, CONTENT_LOCATION};
-use actix_web::web::Html;
-use actix_web::{get, middleware, App, HttpRequest, HttpResponse, HttpServer, Responder};
+use actix_files::{Files, NamedFile};
+use actix_web::http::{StatusCode, header::LINK};
+use actix_web::{App, Either, HttpRequest, HttpServer, Responder, get, middleware};
 use log::info;
-
-#[get("/")]
-async fn index() -> impl Responder {
-    Html::new(include_str!("../assets/index.html"))
-}
 
 #[get("/blog")]
 async fn rickroll(req: HttpRequest) -> impl Responder {
-    // if HTMX header not present, return 404 error
-    if !req.headers().contains_key("hx-request") {
-        return HttpResponse::NotFound()
-            .content_type(ContentType::jpeg())
-            .insert_header((CONTENT_LOCATION, "https://http.cat/404.jpg"))
-            .body(include_bytes!("../assets/404.jpg").as_ref());
+    // Serve the rickroll page if the request made by htmx
+    if req.headers().get("hx-request").is_some_and(|v| v == "true") {
+        return Either::Left(NamedFile::open_async("./assets/rickroll.html").await);
     }
-    HttpResponse::Ok()
-        .content_type(ContentType::html())
-        .body(include_str!("../assets/rickroll.html"))
+
+    Either::Right(
+        NamedFile::open_async("./assets/404.jpg")
+            .await
+            .customize()
+            .with_status(StatusCode::NOT_FOUND)
+            .append_header((LINK, "<https://http.cat/404.jpg>; rel=\"source\"")),
+    )
 }
 
 #[actix_web::main]
@@ -39,12 +35,16 @@ async fn main() -> std::io::Result<()> {
     HttpServer::new(|| {
         App::new()
             .wrap(middleware::Compress::default())
-            .wrap(middleware::Logger::new(
-                "%r [%s] | Time: [%T] | \"%{User-Agent}i\"",
-            ))
-            .service(index)
+            .wrap(
+                middleware::Logger::new("%r [%s] | Time: [%T] | \"%{User-Agent}i\"")
+                    .log_level(log::Level::Debug),
+            )
             .service(rickroll)
-            .service(Files::new("/", "./assets").prefer_utf8(true))
+            .service(
+                Files::new("/", "./assets")
+                    .index_file("index.html")
+                    .prefer_utf8(true),
+            )
     })
     .bind(("0.0.0.0", port))?
     .run()

@@ -1,10 +1,6 @@
 # valsoray.dev
 
-The source code of my website, which uses [HTMX](https://github.com/bigskysoftware/htmx) to create a so-called internet joke.
-
-All this works thanks to [actix-web](https://github.com/actix/actix-web) and the [Rust programming language](https://github.com/rust-lang/rust).
-
-Because of this, not a single line of JavaScript is used in this project. (TypeScript is good, btw)
+Website specifically made to prank your friends and others.
 
 ## Installation
 
@@ -22,7 +18,6 @@ Because of this, not a single line of JavaScript is used in this project. (TypeS
    ```
 
 3. Or by using Docker:
-
    - Build the Docker image:
 
      ```bash

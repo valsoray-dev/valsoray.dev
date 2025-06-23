@@ -1,27 +1,21 @@
 [package]
 name = "valsoray-dev"
 version = "0.1.0"
-edition = "2021"
+edition = "2024"
 authors = ["valsoray-dev"]
 license = "MIT"
-
-[[bin]]
-name = "valsoray-dev"
-path = "src/main.rs"
 
 [profile.release]
 lto = true
 codegen-units = 1
-panic = "abort"
-strip = true
 
 [dependencies]
 actix-files = "0.6"
-actix-web = { version = "4.10", default-features = false, features = [
-    "macros",
+actix-web = { version = "4.11", default-features = false, features = [
     "compress-brotli",
     "compress-gzip",
     "compress-zstd",
+    "macros",
 ] }
 dotenvy = "0.15"
 log = "0.4"
